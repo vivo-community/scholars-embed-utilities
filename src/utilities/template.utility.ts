@@ -41,20 +41,6 @@ const getParsedTemplateFunction = (template: string, additionalContext: any = {}
     return getTemplateFunction(template, additionalContext);
 };
 
-const getTags = (taggable: any): any[] => {
-    const tags = [];
-    for (const i in taggable) {
-        if (taggable.hasOwnProperty(i) && taggable[i].tags) {
-            for (const j in taggable[i].tags) {
-                if (taggable[i].tags.hasOwnProperty(j) && tags.indexOf(taggable[i].tags[j]) < 0) {
-                    tags.push(taggable[i].tags[j]);
-                }
-            }
-        }
-    }
-    return tags;
-}
-
 const initializeTemplateHelpers = (mapping: any = {}) => {
     registerHelper('formalize', (value) => formalize(value, mapping));
 
@@ -179,7 +165,16 @@ const initializeTemplateHelpers = (mapping: any = {}) => {
     });
 
     registerHelper('tags', (taggable, options) => {
-        const tags = getTags(taggable);
+        const tags = [];
+        for (const i in taggable) {
+            if (taggable.hasOwnProperty(i) && taggable[i].tags) {
+                for (const j in taggable[i].tags) {
+                    if (taggable[i].tags.hasOwnProperty(j) && tags.indexOf(taggable[i].tags[j]) < 0) {
+                        tags.push(taggable[i].tags[j]);
+                    }
+                }
+            }
+        }
         let out = '';
         for (const i in tags) {
             if (tags.hasOwnProperty(i)) {
@@ -190,7 +185,16 @@ const initializeTemplateHelpers = (mapping: any = {}) => {
     });
 
     registerHelper('hasTags', (taggable, options) => {
-        const tags = getTags(taggable);
+        const tags = [];
+        for (const i in taggable) {
+            if (taggable.hasOwnProperty(i) && taggable[i].tags) {
+                for (const j in taggable[i].tags) {
+                    if (taggable[i].tags.hasOwnProperty(j) && tags.indexOf(taggable[i].tags[j]) < 0) {
+                        tags.push(taggable[i].tags[j]);
+                    }
+                }
+            }
+        }
         if (tags.length > 0) {
             return options.fn(this);
         } else {
